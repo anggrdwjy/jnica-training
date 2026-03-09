@@ -30,8 +30,8 @@
 
 ### 3 Mode of Junos
 #### Unix Mode
-* cli (Access to Operational Mode)
-
+* cli
+  
 #### Operational Mode
 * ping
 * traceroute
