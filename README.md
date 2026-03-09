@@ -28,7 +28,7 @@
 * Automation
 * Design
 
-### 3 Mode of Junos
+## 3 Mode of Junos
 #### Unix Mode
 * cli
   
