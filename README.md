@@ -1,7 +1,7 @@
 ## Overview Junos
 
 <p align="center">
-<img src="img/juniper.png">
+<img src="img/juniperlogo.png">
 </p>
 
 #### Introduction Junos
