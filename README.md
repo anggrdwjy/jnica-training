@@ -1,5 +1,9 @@
 ## Overview Junos
 
+<p align="center">
+<img src="img/juniper.png">
+</p>
+
 #### Introduction Junos
 * Build for High Performance Network
 * Unix Based (FreeBSD)
