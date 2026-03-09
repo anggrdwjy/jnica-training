@@ -67,89 +67,89 @@
 * top (back to top hirarcy)
 
 #### 2. Hostname
-```
-set system host-name "hostname"
-```
+  ```
+  set system host-name "hostname"
+  ```
 
 #### 3. Root Password
-```
-set system root-authentication plain-text-password
-"...." -> Password
-commit
-```
+  ```
+  set system root-authentication plain-text-password
+  "...." -> Password
+  commit
+  ```
 
 #### 4. Username and Password
 * Superuser
-```
-set system login user [username] class super-user
-set system login user [username] authentication plain-text-password
-"...." -> Password
-commit
-```
+  ```
+  set system login user [username] class super-user
+  set system login user [username] authentication plain-text-password
+  "...." -> Password
+  commit
+  ```
 
 * Operator
-```
-set system login user [username] class operator
-set system login user [username] authentication plain-text-password
-"...." -> Password
-commit
-```
+  ```
+  set system login user [username] class operator
+  set system login user [username] authentication plain-text-password
+  "...." -> Password
+  commit
+  ```
 
 * Admin
-```
-set system login user [username] class admin
-set system login user [username] authentication plain-text-password
-"...." -> Password
-commit
-```
+  ```
+  set system login user [username] class admin
+  set system login user [username] authentication plain-text-password
+  "...." -> Password
+  commit
+  ```
 
 #### 5. Candidate and Active Configuration
 * Candidate
-```
-show
-```
+  ```
+  show
+  ```
 
 * Active
-```
-run show
-```
+  ```
+  run show
+  ```
 
 #### 6. Commit Example
 * Commit
-```
-commit check
-commit and-quit
-commit at "2026-03-26 24:00:00" -> Schedule commit time
-commit confirmed -> 10minutes rollback configuration (default)
-commit confirmed 1 (1 minute)
-commit confirmed 20 (20 minute)
-commit comment "remove xxyyzz"
-show system commit
-```
+  ```
+  commit check
+  commit and-quit
+  commit at "2026-03-26 24:00:00" -> Schedule commit time
+  commit confirmed -> 10minutes rollback configuration (default)
+  commit confirmed 1 (1 minute)
+  commit confirmed 20 (20 minute)
+  commit comment "remove xxyyzz"
+  show system commit
+  ```
 
 * Rollback commit comment maks 49 list
-```
-rollback 1 -> back configuration commit 1
-rollback 0 -> discard candidate configuration
-```
+  ```
+  rollback 1 -> back configuration commit 1
+  rollback 0 -> discard candidate configuration
+  ```
 
 #### 7. Date and Time
 * Set Date
-```
-run set date 202603060100.00 -> Operational Mode
-```
+  ```
+  run set date 202603060100.00 -> Operational Mode
+  ```
 
 * Set Timezone
-```
-set system timezone Asia/Jakarta -> Configuration Mode
-show | compare
-commit
-```
+  ```
+  set system timezone Asia/Jakarta -> Configuration Mode
+  show | compare
+  commit
+  ```
 
 * Verification
-```
-show system uptime
-```
+  ```
+  show system uptime
+  ```
 
 #### 8. NTP (Network Time Protocol)
 ```
@@ -168,36 +168,36 @@ set system services telnet
 
 #### 10. Delete, Active and Deactive Mode
 * Delete Configuration
-```
-delete ...
-```
+  ```
+  delete ...
+  ```
 
 * Disable Configuration
-```
-deactive ...
-```
+  ```
+  deactive ...
+  ```
 
 * Active Configuration
-```
-active ...
-```
+  ```
+  active ...
+  ```
 
 #### 11. Rename and Replace Parameter
 * Rename Example
-```
-edit system
-rename user "user" to "user10"
-show | compare
-commit
-```
+  ```
+  edit system
+  rename user "user" to "user10"
+  show | compare
+  commit
+  ```
 
 * Replace Example
-```
-edit system
-replace pattern user "user" with "superuser"
-show | compare
-commit
-```
+  ```
+  edit system
+  replace pattern user "user" with "superuser"
+  show | compare
+  commit
+  ```
 
 #### 12. Pipeline
 ```
@@ -208,149 +208,149 @@ commit
 
 #### 13. Backup, Restore, Load Merge Configuration
 * Backup Configuration
-```
-save "backup_config"
-```
+  ```
+  save "backup_config"
+  ```
 
 * Verification Backup Configuration
-```
-run file list
-cat "backup_config"
-```
+  ```
+  run file list
+  cat "backup_config"
+  ```
 
 * Restore Configuration
-```
-load override "old_config"
-show | compare
-commit
-```
+  ```
+  load override "old_config"
+  show | compare
+  commit
+  ```
 
 * Load Merge Configuration
-```
-load merge "old_config"
-show | compare
-commit
-```
+  ```
+  load merge "old_config"
+  show | compare
+  commit
+  ```
 
 #### 14. Reset Configuration
 * Reset Factory Default
-```
-load factory-default
-show | compare
-commit
-```
+  ```
+  load factory-default
+  show | compare
+  commit
+  ```
 
 #### 15. Configure
 * Configure
-```
-set ...
-show | compare
-commit
-```
+  ```
+  set ...
+  show | compare
+  commit
+  ```
 
 * Configure Private
-```
-configure private
-set ...
-show | compare
-commit
-```
+  ```
+  configure private
+  set ...
+  show | compare
+  commit
+  ```
 
 * Configure Exclusive
-```
-configure exclusive
-set ...
-show | compare
-commit
-```
+  ```
+  configure exclusive
+  set ...
+  show | compare
+  commit
+  ```
 
 #### 16. Interface Configuration
 * Loopback Configuration
-```
-set interfaces lo0 unit 0 description
-set interfaces lo0 unit 0 family inet address 1.1.1.1/32
-commit
-```
+  ```
+  set interfaces lo0 unit 0 description
+  set interfaces lo0 unit 0 family inet address 1.1.1.1/32
+  commit
+  ```
 
 * Interface Configuration
-```
-set interfaces em0 unit 0 description
-set interfaces em0 unit 0 family inet address 10.10.10.1/24
-commit
-```
+  ```
+  set interfaces em0 unit 0 description
+  set interfaces em0 unit 0 family inet address 10.10.10.1/24
+  commit
+  ```
 
 * Verification
-```
-run show interfaces terse
-run show interfaces brief
-run ping 10.10.10.x
-```
+  ```
+  run show interfaces terse
+  run show interfaces brief
+  run ping 10.10.10.x
+  ```
 
 ## Routing Configuration
 
 #### 1. Static Routing
 * Static Route Configuration
-```
-set routing-options static route "destination_network" next-hop "gateway"
-show | compare
-commit
-```
+  ```
+  set routing-options static route "destination_network" next-hop "gateway"
+  show | compare
+  commit
+  ```
 
 * Routing Table Static
-```
-show route protocol static
-```
+  ```
+  show route protocol static
+  ```
 
 * Delete Static Route
-```
-delete routing-options static
-show | compare
-commit
-```
+  ```
+  delete routing-options static
+  show | compare
+  commit
+  ```
 
 #### 2. OSPF Routing
 * Router ID
-```
-set routing-options router-id 1.1.1.1
-```
+  ```
+  set routing-options router-id 1.1.1.1
+  ```
 
-* OSPF Interface Single Area
-```
-set protocols ospf area 1 interface em0
-set protocols ospf area 1 interface em1
-set protocols ospf area 1 interface lo0
-show | compare
-commit
-```
+* OSPF Advertise Routing Single Area
+  ```
+  set protocols ospf area 1 interface em0
+  set protocols ospf area 1 interface em1
+  set protocols ospf area 1 interface lo0
+  show | compare
+  commit
+  ```
 
-* OSPF Interface Multi Area
-```
-set routing-options router-id 2.2.2.2
-set protocols ospf area 1 interface em0
-set protocols ospf area 2 interface em1
-set protocols ospf area 0 interface lo0
-show | compare
-commit
-```
+* OSPF Advertise Routing Multi Area
+  ```
+  set routing-options router-id 2.2.2.2
+  set protocols ospf area 1 interface em0
+  set protocols ospf area 2 interface em1
+  set protocols ospf area 0 interface lo0
+  show | compare
+  commit
+  ```
 
 * Verification
-```
-show configuration routing-options
-show configuration protocols ospf
-show ospf neighbor
-show ospf route
-show route protocol ospf
-```
+  ```
+  show configuration routing-options
+  show configuration protocols ospf
+  show ospf neighbor
+  show ospf route
+  show route protocol ospf
+  ```
 
 * Migration Area OSPF (Rename Area)
-```
-edit protocols ospf
-rename area 0 to area 100
-show | compare
-commit
-```
+  ```
+  edit protocols ospf
+  rename area 0 to area 100
+  show | compare
+  commit
+  ```
 
-#### 3. IS-IS
+#### 3. IS-IS Routing
 * Overview IS-IS
   - First IGP  Routing Protocol
   - ISO Standard
@@ -382,6 +382,48 @@ commit
     49.0002.1720.1400.4006.00
     ```
 
-* Configuration Loopback
-* Configuration Interface
-* 
+* IS-IS Loopback
+  ```
+  set interface lo0 unit 0 family inet address 1.0.0.1/32
+  set interface em0 unit 0 family inet address 1.1.1.1/30
+  set interface em1 unit 0 family inet address 1.1.1.2/30
+  set interface em2 unit 0 family inet address s1.1.1.3/30
+  ```
+  
+* IS-IS Interface
+  ```
+  set interface lo0 unit 0 family iso address 49.0001.1720.1400.4004.00
+  set interface em0 unit 0 family iso
+  set interface em1 unit 0 family iso
+  set interface em2 unit 0 family iso
+  ```
+  
+* IS-IS Advertise Routing Level-1
+  ```
+  set protocols isis interface lo0 level 2 disable (level 1 enable)
+  set protocols isis interface em0 level 2 disable (level 1 enable)
+  set protocols isis interface em1 level 2 disable (level 1 enable)
+  set protocols isis interface em2 level 2 disable (level 1 enable)
+  ```
+  
+* IS-IS Advertise Routing Level-2
+  ```
+  set protocols isis interface lo0 level 1 disable (level 2 enable)
+  set protocols isis interface em0 level 1 disable (level 2 enable)
+  set protocols isis interface em1 level 1 disable (level 2 enable)
+  set protocols isis interface em2 level 1 disable (level 2 enable)
+  ```
+  
+* IS-IS Advertise Routing Level-2 and Level-1
+  ```
+  set protocols isis interface lo0 level 2 disable (level 1 enable)
+  set protocols isis interface em0 level 2 disable (level 1 enable)
+  set protocols isis interface em1 level 1 disable (level 2 enable)
+  set protocols isis interface em2 level 1 disable (level 2 enable)
+  ```
+  
+* Verification
+  ```
+  show route protocol isis
+  ```
+  
