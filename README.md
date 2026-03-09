@@ -233,7 +233,8 @@ commit
 #### Interface
 * Interface Configuration
 ```
-set interfaces em0 unit 0 family ipv4 address 10.10.10.1/24
+set interfaces lo0 unit 0 family inet address 1.1.1.1/32
+set interfaces em0 unit 0 family inet address 10.10.10.1/24
 commit
 ```
 
@@ -248,7 +249,7 @@ run ping 10.10.10.x
 #### Static Routing
 * Static Route Configuration
 ```
-set routing-options static route [destination_network] next-hop [gateway]
+set routing-options static route "destination_network" next-hop "gateway"
 show | compare
 commit
 ```
@@ -266,6 +267,46 @@ commit
 ```
 
 #### OSPF
+* Router ID
+```
+set routing-options router-id 1.1.1.1
+```
+
+* OSPF Interface Single Area
+```
+set protocols ospf area 1 interface em0
+set protocols ospf area 1 interface em1
+set protocols ospf area 1 interface lo0
+show | compare
+commit
+```
+
+* OSPF Interface Multi Area
+```
+set routing-options router-id 2.2.2.2
+set protocols ospf area 1 interface em0
+set protocols ospf area 2 interface em1
+set protocols ospf area 0 interface lo0
+show | compare
+commit
+```
+
+* Verification
+```
+show configuration routing-options
+show configuration protocols ospf
+show ospf neighbor
+show ospf route
+show route protocol ospf
+```
+
+* Migration Area OSPF (Rename Area)
+```
+edit protocols ospf
+rename area 0 to area 100
+show | compare
+commit
+```
 
 #### IS-IS
 
