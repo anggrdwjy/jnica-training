@@ -29,17 +29,17 @@
 * Design
 
 ## 3 Mode of Junos
-#### Unix Mode
+#### Unix Mode (Root Privilege)
 * cli
   
-#### Operational Mode
+#### Operational Mode (User Privilege)
 * ping
 * traceroute
 * ssh
 * telnet
 * show
 
-#### Confiugration Mode
+#### Confiugration Mode (Root and User Privilege)
   * configure
   * edit
   * set
