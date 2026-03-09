@@ -65,19 +65,6 @@ set system root-authentication plain-text-password
 commit
 ```
 
-#### Interface
-* Interface Configuration
-```
-set interfaces em0 unit 0 family ipv4 address 10.10.10.1/24
-commit
-```
-
-* Verification
-```
-run show interfaces terse
-run ping 10.10.10.x
-```
-
 #### Username and Password
 ```
 set system login user [username] class super-user
@@ -241,6 +228,19 @@ configure exclusive
 set ...
 show | compare
 commit
+```
+
+#### Interface
+* Interface Configuration
+```
+set interfaces em0 unit 0 family ipv4 address 10.10.10.1/24
+commit
+```
+
+* Verification
+```
+run show interfaces terse
+run ping 10.10.10.x
 ```
 
 ## Routing Configuration
