@@ -449,7 +449,7 @@ set system services telnet
 
 ## Redistribution Policy
 
-#### Redistribution OSPF to IS-IS
+#### 1. Redistribution OSPF to IS-IS
 * Set Policy and Export
 ```
 set policy-options policy-statement OSPF-to-ISIS term 1
@@ -465,7 +465,7 @@ show route protocol isis
 show route protocol ospf
 ```
 
-#### Redistribution IS-IS to OSPF
+#### 2. Redistribution IS-IS to OSPF
 * Set Policy and Export
 ```
 set policy-options policy-statement ISIS-to-OSPF term 1
@@ -483,11 +483,11 @@ show route protocol ospf
 
 ## Firewall Filter
 
-#### Firewall Concept
+#### 1. Firewall Concept
 * Discard  -> Bloking
 * Reject   -> Bloking with Notification
   
-#### Reject Ping (ICMP)
+#### 2. Reject Ping (ICMP)
 * Set Term Firewall Filter ICMP (Reject)
   ```
   set firewall filter FILTER-PING term FILTER-TERM-1
@@ -514,7 +514,7 @@ show route protocol ospf
   commit
   ```
   
-#### Reject SSH (Default Port 22)
+#### 3. Reject SSH (Default Port 22)
 * Set Term Firewall Filter SSH (Reject)
   ```
   set firewall filter FILTER-SSH term FILTER-TERM-SSH 
