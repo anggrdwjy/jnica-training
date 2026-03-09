@@ -39,18 +39,18 @@
 * telnet
 * show
 
-##### Confiugration Mode
+#### Confiugration Mode
   * configure
   * edit
   * set
   * run
 
+## Basic Configuration
+
 #### Navigation Configuration (Hirarcy)
 * up (back hirarcy)
 * up 3 (back 3 hirarcy)
 * top (back to top hirarcy)
-
-## Basic Configuration
 
 #### Hostname
 ```
