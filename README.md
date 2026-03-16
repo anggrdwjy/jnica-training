@@ -752,7 +752,7 @@ root# set protocols l2circuit neighbor "near-end loopback" interface ge-0/0/1.10
 root# set protocols l2circuit neighbor "near-end loopback" interface ge-0/0/1.10 ignore-encapsulation-mismatch
 ```
 
-* Service Instance
+* Port Service
 ```
 root# set interfaces ge-0/0/1 flexible-vlan-tagging
 root# set interfaces ge-0/0/1 mtu 1900
@@ -776,7 +776,7 @@ root# set protocols l2circuit neighbor "far-end loopback" interface ge-0/0/1.10 
 root# set protocols l2circuit neighbor "far-end loopback" interface ge-0/0/1.10 ignore-encapsulation-mismatch
 ```
 
-* Service Instance
+* Port Service
 ```
 root# set interfaces ge-0/0/1 flexible-vlan-tagging
 root# set interfaces ge-0/0/1 mtu 1900
@@ -810,7 +810,7 @@ root# set routing-instances "to Near-end" protocols vpls neighbor "to Near-end L
 root# set routing-instances "to Near-end" protocols vpls neighbor "to Near-end Loopback" backup-neighbor "to Backup-HO Loopback" standby 
 ```
 
-* Service Instance
+* Port Service
 ```
 root# set interfaces ge-0/0/4 unit 0 description "to Near-end"  
 root# set interfaces ge-0/0/4 mtu 1500 
@@ -841,7 +841,7 @@ root# set routing-instances "to Far-end" protocols vpls neighbor "to Far-end Loo
 root# set routing-instances "to Far-end" protocols vpls neighbor "to Far-end Loopback" backup-neighbor "to Backup-HO Loopback" standby 
 ```
 
-* Service Instance
+* Port Service
 ```
 root# set interfaces ge-0/0/4 unit 0 description "to Far-end" 
 root# set interfaces ge-0/0/4 mtu 1500 
@@ -856,6 +856,139 @@ root> show route forwarding-table family vpls
 ```
 
 ## MPLS L3VPN Configuration
+
+#### Virtual Routing Forwarding
+* VPN Policy
+```
+root# set policy-options policy-statement VPN-SERVER-XYZ-EXPORT term 1 then community add target:65000:100 
+root# set policy-options policy-statement VPN-SERVER-XYZ-EXPORT term 1 then accept 
+root# set policy-options policy-statement VPN-SERVER-XYZ-IMPORT term 1 from community target:65000:100 
+root# set policy-options policy-statement VPN-SERVER-XYZ-IMPORT term 1 then accept 
+root# set policy-options policy-statement VPN-SERVER-XYZ-IMPORT term other then reject 
+root# set policy-options community target:65000:100 members target:65000:100
+```
+
+* VPN Instance
+```
+root# set routing-instances VPN-SERVER-XYZ instance-type vrf 
+root# set routing-instances VPN-SERVER-XYZ interface ge-0/0/1.0 
+root# set routing-instances VPN-SERVER-XYZ route-distinguisher 65000:100 
+root# set routing-instances VPN-SERVER-XYZ vrf-import VPN-SERVER-XYZ-IMPORT 
+root# set routing-instances VPN-SERVER-XYZ vrf-export VPN-SERVER-XYZ-EXPORT 
+root# set routing-instances VPN-SERVER-XYZ vrf-table-label 
+```
+
+* Port Service
+```
+root# set interfaces ge-0/0/1 unit 0 description "to SERVER-XYZ" 
+root# set interfaces ge-0/0/1 encapsulation ethernet 
+root# set interfaces ge-0/0/1 mtu 1500 
+root# set interfaces ge-0/0/1 unit 0 family inet address 192.110.0.1/30 
+```
+
+#### VRF Option Inter AS (AS-Overide)
+* VPN Policy
+```
+root# set policy-options policy-statement VPN-SERVER-12-EXPORT term 1 then community add target:65000:200 
+root# set policy-options policy-statement VPN-SERVER-12-EXPORT term 1 then accept 
+root# set policy-options policy-statement VPN-SERVER-12-IMPORT term 1 from community target:65000:200 
+root# set policy-options policy-statement VPN-SERVER-12-IMPORT term 1 then accept 
+root# set policy-options policy-statement VPN-SERVER-12-IMPORT term other then reject 
+root# set policy-options community target:65000:200 members target:65000:200 
+```
+
+* VPN Instance
+```
+root# set routing-instances VPN-SERVER-12 instance-type vrf 
+root# set routing-instances VPN-SERVER-12 interface ge-0/0/3.0 
+root# set routing-instances VPN-SERVER-12 route-distinguisher 65000:200 
+root# set routing-instances VPN-SERVER-12 vrf-import VPN-SERVER-12-IMPORT 
+root# set routing-instances VPN-SERVER-12 vrf-export VPN-SERVER-12-EXPORT 
+root# set routing-instances VPN-SERVER-12 vrf-table-label
+```
+
+* Redistribute BGP
+```
+root# set routing-instances VPN-SERVER-12 protocol bgp group VPN-SERVER-12 type external 
+root# set routing-instances VPN-SERVER-12 protocol bgp group VPN-SERVER-12 family inet unicast 
+root# set routing-instances VPN-SERVER-12 protocol bgp group VPN-SERVER-12 neighbor 172.100.0.2 
+root# set routing-instances VPN-SERVER-12 protocol bgp group VPN-SERVER-12 neighbor 172.100.0.2 as-override
+root# set routing-instances VPN-SERVER-12 protocol bgp group VPN-SERVER-12 neighbor 172.100.0.2 peer-as 65488 
+root# set routing-instances VPN-SERVER-12 protocol bgp group VPN-SERVER-12 neighbor 172.100.0.2 local-as 65000 
+root# set routing-instances VPN-SERVER-12 protocol bgp group VPN-SERVER-12 neighbor 172.100.0.2 export EXPORT-AS65488 
+root# set policy-options policy-statement EXPORT-AS65488 term 1 from route-filter 202.20.0.0/30 exact 
+root# set policy-options policy-statement EXPORT-AS65488 term 1 then accept 
+root# set policy-options policy-statement EXPORT-AS65488 term other then reject 
+```
+
+* Service Port
+```
+root# set interfaces ge-0/0/3 unit 0 description "to SERVER-12" 
+root# set interfaces ge-0/0/3 encapsulation ethernet 
+root# set interfaces ge-0/0/3 mtu 1500 
+root# set interfaces ge-0/0/3 unit 0 family inet address 172.100.0.1/30 
+```
+
+* Verification
+```
+root# run show route table [VRF_NAME].inet.0
+root# run show route forwarding-table vpn [VRF_NAME]
+root# ping routing-instance [VRF_NAME] [DESTINATION_IP] source [SOURCE_IP] count 5
+root# run show bgp summary instance [VRF_NAME]
+root# ping [DESTINATION_IP] source [SOURCE_IP]
+root# traceroute [DESTINATION_IP] source [SOURCE_IP]
+```
+
+#### VRF Option Inter OSPF (Sham-Link)
+* VPN Policy
+```
+root# set policy-options policy-statement VPN-OSPF-AB-EXPORT term 1 then community add target:65000:300 
+root# set policy-options policy-statement VPN-OSPF-AB-EXPORT term 1 then accept 
+root# set policy-options policy-statement VPN-OSPF-AB-IMPORT term 1 from community target:65000:300 
+root# set policy-options policy-statement VPN-OSPF-AB-IMPORT term 1 then accept 
+root# set policy-options policy-statement VPN-OSPF-AB-IMPORT term other then reject 
+root# set policy-options community target:65000:300 members target:65000:300 
+```
+
+* VPN Instance
+```
+root# set routing-instances VPN-OSPF-AB instance-type vrf 
+root# set routing-instances VPN-OSPF-AB interface ge-0/0/3.0 
+root# set routing-instances VPN-OSPF-AB interface lo0.1 
+root# set routing-instances VPN-OSPF-AB route-distinguisher 65000:300 
+root# set routing-instances VPN-OSPF-AB vrf-import VPN-OSPF-AB-IMPORT 
+root# set routing-instances VPN-OSPF-AB vrf-export VPN-OSPF-AB-EXPORT 
+root# set routing-instances VPN-OSPF-AB vrf-table-label 
+root# set routing-instances VPN-OSPF-AB protocol ospf export EXPORT-OSPF-888 
+root# set routing-instances VPN-OSPF-AB protocol ospf sham-link local 103.22.0.253 
+root# set routing-instances VPN-OSPF-AB protocol ospf area 0.0.3.120 sham-link-remote 103.32.0.253 metric 10 
+root# set routing-instances VPN-OSPF-AB protocol ospf area 0.0.3.120 interface ge-0/0/3.0 
+root# set routing-instances VPN-OSPF-AB protocol ospf area 0.0.3.120 interface lo0.1 
+```
+
+* Redistribute OSPF
+```
+root# set policy-options policy-statement EXPORT-OSPF-888 term 1 from protocol bgp 
+root# set policy-options policy-statement EXPORT-OSPF-888 term 1 then accept 
+root# set policy-options policy-statement EXPORT-OSPF-888 term other then reject 
+```
+
+* Port Service
+```
+root# set interfaces lo0 unit 1 family inet address 103.22.0.253/32 
+root# set interfaces ge-0/0/3 unit 0 description "to NODE-A" 
+root# set interfaces ge-0/0/3 encapsulation ethernet 
+root# set interfaces ge-0/0/3 mtu 1500 
+root# set interfaces ge-0/0/3 unit 0 family inet address 10.0.0.1/30 
+```
+
+* Verification
+```
+root# run show ospf interface instance [VRF_NAME]
+root# run show ospf neighbor instance [VRF_NAME]
+root# ping [DESTINATION_IP] source [SOURCE_IP]
+root# traceroute [DESTINATION_IP] source [SOURCE_IP]
+```
 
 ## LACP Configuration
 
