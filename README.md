@@ -88,76 +88,76 @@ root# commit
 
 #### 4. Username and Password
 * Superuser
-  ```
-  root# set system login user [username] class super-user
-  root# set system login user [username] authentication plain-text-password
-  "...." -> Password
-  root# commit
-  ```
+```
+root# set system login user [username] class super-user
+root# set system login user [username] authentication plain-text-password
+"...." -> Password
+root# commit
+```
 
 * Operator
-  ```
-  root# set system login user [username] class operator
-  root# set system login user [username] authentication plain-text-password
-  "...." -> Password
-  root# commit
-  ```
+```
+root# set system login user [username] class operator
+root# set system login user [username] authentication plain-text-password
+"...." -> Password
+root# commit
+```
 
 * Admin
-  ```
-  root# set system login user [username] class admin
-  root# set system login user [username] authentication plain-text-password
-  "...." -> Password
-  root# commit
-  ```
+```
+root# set system login user [username] class admin
+root# set system login user [username] authentication plain-text-password
+"...." -> Password
+root# commit
+```
 
 #### 5. Candidate and Active Configuration
 * Candidate
-  ```
-  root> show
-  ```
+```
+root> show
+```
 
 * Active
-  ```
-  root# run show
-  ```
+```
+root# run show
+```
 
 #### 6. Commit Example
 * Commit
-  ```
-  root# commit check
-  root# commit and-quit
-  root# commit at "2026-03-26 24:00:00" -> Schedule commit time
-  root# commit confirmed -> 10minutes rollback configuration (default)
-  root# commit confirmed 1 (1 minute)
-  root# commit confirmed 20 (20 minute)
-  root# commit comment "remove xxyyzz"
-  root# show system commit
-  ```
+```
+root# commit check
+root# commit and-quit
+root# commit at "2026-03-26 24:00:00" -> Schedule commit time
+root# commit confirmed -> 10minutes rollback configuration (default)
+root# commit confirmed 1 (1 minute)
+root# commit confirmed 20 (20 minute)
+root# commit comment "remove xxyyzz"
+root# show system commit
+```
 
 * Rollback commit comment maks 49 list
-  ```
-  root# rollback 1 -> back configuration commit 1
-  root# rollback 0 -> discard candidate configuration
-  ```
+```
+root# rollback 1 -> back configuration commit 1
+root# rollback 0 -> discard candidate configuration
+```
 
 #### 7. Date and Time
 * Set Date
-  ```
-  root> run set date 202603060100.00 -> Operational Mode
-  ```
+```
+root> run set date 202603060100.00 -> Operational Mode
+```
 
 * Set Timezone
-  ```
-  root# set system timezone Asia/Jakarta -> Configuration Mode
-  root# show | compare
-  root# commit
-  ```
+```
+root# set system timezone Asia/Jakarta -> Configuration Mode
+root# show | compare
+root# commit
+```
 
 * Verification
-  ```
-  root# show system uptime
-  ```
+```
+root# show system uptime
+```
 
 #### 8. NTP (Network Time Protocol)
 ```
@@ -176,36 +176,36 @@ root# set system services telnet
 
 #### 10. Delete, Active and Deactive Mode
 * Delete Configuration
-  ```
-  root# delete ...
-  ```
+```
+root# delete ...
+```
 
 * Disable Configuration
-  ```
-  root# deactive ...
-  ```
+```
+root# deactive ...
+```
 
 * Active Configuration
-  ```
-  root# active ...
-  ```
+```
+root# active ...
+```
 
 #### 11. Rename and Replace Parameter
 * Rename Example
-  ```
-  root# edit system
-  root# rename user "user" to "user10"
-  root# show | compare
-  root# commit
-  ```
+```
+root# edit system
+root# rename user "user" to "user10"
+root# show | compare
+root# commit
+```
 
 * Replace Example
-  ```
-  root# edit system
-  root# replace pattern user "user" with "superuser"
-  root# show | compare
-  root# commit
-  ```
+```
+root# edit system
+root# replace pattern user "user" with "superuser"
+root# show | compare
+root# commit
+```
 
 #### 12. Pipeline
 ```
@@ -216,83 +216,83 @@ root# show | display set
 
 #### 13. Backup, Restore, Load Merge Configuration
 * Backup Configuration
-  ```
-  root# save "backup_config"
-  ```
+```
+root# save "backup_config"
+```
 
 * Verification Backup Configuration
-  ```
-  root# run file list
-  root# cat "backup_config"
-  ```
+```
+root# run file list
+root# cat "backup_config"
+```
 
 * Restore Configuration
-  ```
-  root# load override "old_config"
-  root# show | compare
-  root# commit
-  ```
+```
+root# load override "old_config"
+root# show | compare
+root# commit
+```
 
 * Load Merge Configuration
-  ```
-  root# load merge "old_config"
-  root# show | compare
-  root# commit
-  ```
+```
+root# load merge "old_config"
+root# show | compare
+root# commit
+```
 
 #### 14. Reset Configuration
 * Reset Factory Default
-  ```
-  root# load factory-default
-  root# show | compare
-  root# commit
-  ```
+```
+root# load factory-default
+root# show | compare
+root# commit
+```
 
 #### 15. Configure
 * Configure
-  ```
-  root# set ...
-  root# show | compare
-  root# commit
-  ```
+```
+root# set ...
+root# show | compare
+root# commit
+```
 
 * Configure Private
-  ```
-  root# configure private
-  root# set ...
-  root# show | compare
-  root# commit
-  ```
+```
+root# configure private
+root# set ...
+root# show | compare
+root# commit
+```
 
 * Configure Exclusive
-  ```
-  root# configure exclusive
-  root# set ...
-  root# show | compare
-  root# commit
-  ```
+```
+root# configure exclusive
+root# set ...
+root# show | compare
+root# commit
+```
 
 #### 16. Interface Configuration
 * Loopback Configuration
-  ```
-  root# set interfaces lo0 unit 0 description
-  root# set interfaces lo0 unit 0 family inet address 1.1.1.1/32
-  root# commit
-  ```
+```
+root# set interfaces lo0 unit 0 description
+root# set interfaces lo0 unit 0 family inet address 1.1.1.1/32
+root# commit
+```
 
 * Interface Configuration
-  ```
-  root# set interfaces em0 unit 0 description
-  root# set interfaces em0 unit 0 family inet address 10.10.10.1/24
-  root# commit
-  ```
+```
+root# set interfaces em0 unit 0 description
+root# set interfaces em0 unit 0 family inet address 10.10.10.1/24
+root# commit
+```
 
 * Verification
-  ```
-  root> run show interfaces terse
-  root> run show interfaces brief
-  root> run ping 10.10.10.x
-  ```
+```
+root> run show interfaces terse
+root> run show interfaces brief
+root> run ping 10.10.10.x
+```
 
 ## Routing Configuration
 
