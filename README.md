@@ -1,5 +1,7 @@
 ## Overview Junos
 
+Junos OS (also known as Juniper Junos, Junos and JUNOS) is a FreeBSD-based network operating system used in Juniper Networks routing, switching and security devices. Junos OS was first made available on 7 July 1998. As of 2008, feature updates have been released quarterly. As of March 2024, the latest version is Junos OS 23.2R1, released on June 23, 2023.
+
 <p align="center">
 <img src="img/juniperlogo2.png">
 </p>
@@ -160,9 +162,20 @@ root# show system uptime
 ```
 
 #### 8. NTP (Network Time Protocol)
+* Basic 
 ```
 root# set system ntp server id.pool.ntp.org     -> Domain
-root# set system ntp ervr 162.159.200.123       -> IP 
+root# set system ntp server 162.159.200.123     -> IP 
+root# show | compare
+root# commit
+```
+
+* Advanced
+```
+root# set system ntp boot-server "ntp server main"
+root# set system ntp server "ntp server main" prefer
+root# set system ntp server "ntp server backup"
+root# set system ntp source-address "loopback"
 root# show | compare
 root# commit
 ```
@@ -294,6 +307,25 @@ root> run show interfaces brief
 root> run ping 10.10.10.x
 ```
 
+* Maximum Transmission Unit (MTU)
+```
+root# set interfaces em0 mtu "range 1998 - 9200"
+root# show | compare
+root# commit
+```
+
+#### 17. SNMP (Simple Network Management Protocol)
+* SNMP 
+```
+root# set snmp description snmpfilter
+root# set snmp location "hostname"
+root# set snmp contact "mail / contact center"
+root# set snmp community "snmp community" authorization read-only
+root# set snmp community "snmp community" clients "ip target 1"
+root# set snmp community "snmp community" clients "ip target 2"
+root# commit
+```
+
 ## Routing Configuration
 
 #### 1. Static Routing
@@ -314,6 +346,11 @@ root# show route protocol static
 root# delete routing-options static
 root# show | compare
 root# commit
+```
+
+* Static Route Preference
+```
+root# set routing-options static route "destination_network" next-hop "gateway" preference "value"
 ```
 
 #### 2. OSPF Routing
@@ -346,6 +383,7 @@ root# commit
 root# show configuration routing-options
 root# show configuration protocols ospf
 root# show ospf neighbor
+root# show ospf interface
 root# show ospf route
 root# show route protocol ospf
 ```
@@ -356,6 +394,39 @@ root# edit protocols ospf
 root# rename area 0 to area 100
 root# show | compare
 root# commit
+```
+
+* Advanced OSPF
+```
+root# set protocols ospf area "id area" interface "loopback" interface-type p2p
+root# set protocols ospf area "id area" interface "loopback" metric "1 - 65000"    -> MTU
+```
+```
+root# set protocols ospf area "id area" interface "port" interface-type p2p
+root# set protocols ospf area "id area" interface "port" metric "1 - 65000"    -> MTU
+root# set protocols ospf area "id area" interface "port" hello-interval 5
+root# set protocols ospf area "id area" interface "port" dead-interval 15
+root# set protocols ospf area "id area" interface "port" authentication md5 1 key "password"
+```
+
+* OSPF Policy
+```
+root# set policy-options policy-statement "ospf-term" term 1 from route-filter "ip address /xx" exact
+root# set policy-options policy-statement "ospf-term" term 1 then accept
+root# set policy-options policy-statement "ospf-term" term 2 then reject
+root# set protocols ospf export "ospf-term"
+```
+
+* OSPF Traffic-Engineering and Reference Bandwidth
+```
+root# set protocols ospf traffic-engineering
+root# set protocols ospf reference-bandwidth "1G/10G/100G"
+```
+
+* OSPF BFD (Bidirectional Forwarding Detection)
+```
+root# set protocols ospf area "id area" interface "port" bfd-liveness-detection minimum interval 300
+root# set protocols ospf area "id area" interface "port" bfd-liveness-detection multiplier 3
 ```
 
 #### 3. IS-IS Routing
@@ -377,18 +448,18 @@ root# commit
   
 * Leveling IS-IS
   - Level 1 : Connection Singlearea (Intra area)
-    ```
-    49.0001.1720.1400.4004.00 (level 1)
-    49.0001.1720.1400.4005.00
-    49.0001.1720.1400.4006.00
-    ```
+  ```
+  49.0001.1720.1400.4004.00 (level 1)
+  49.0001.1720.1400.4005.00
+  49.0001.1720.1400.4006.00
+  ```
     
   - Level 2 : Connection Multiarea (Inter area)
-    ```
-    49.0002.1720.1400.4004.00 (level 2)
-    49.0002.1720.1400.4005.00
-    49.0002.1720.1400.4006.00
-    ```
+  ```
+  49.0002.1720.1400.4004.00 (level 2)
+  49.0002.1720.1400.4005.00
+  49.0002.1720.1400.4006.00
+  ```
 
 * IS-IS Loopback
 ```
@@ -433,6 +504,16 @@ root# set protocols isis interface em2 level 1 disable (level 2 enable)
 * Verification
 ```
 root# show route protocol isis
+root# show isis interface
+root# show isis summary
+root# show isis adjacency detail
+root# show isis database
+```
+
+* IS-IS Advanced
+```
+root# set protocol isis level 1 wide-metrics-only    -> Intra Area
+root# set protocol isis level 2 wide-metrics-only    -> Inter Area
 ```
 
 ## Routing Policy
