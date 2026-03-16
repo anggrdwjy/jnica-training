@@ -17,12 +17,12 @@
 * Routing Policy
 * Redistribution Policy
 * Firewall Filter
-* MPLS Configuration  _[Bonus]
-* I-BGP Route Reflector  _[Bonus]
-* MPLS L2VPN Configuration  _[Bonus]
-* VPLS Configuration  _[Bonus]
-* MPLS L3VPN Configuration _[Bonus]
-* LACP Configuration  _[Bonus]
+* MPLS Configuration  [Bonus_Part]
+* I-BGP Route Reflector  [Bonus_Part]
+* MPLS L2VPN Configuration  [Bonus_Part]
+* VPLS Configuration  [Bonus_Part]
+* MPLS L3VPN Configuration  [Bonus_Part]
+* LACP Configuration  [Bonus_Part]
 
 ## Junos Advantages
 #### 1. Separation of Resources
