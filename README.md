@@ -19,12 +19,12 @@ Junos OS (also known as Juniper Junos, Junos and JUNOS) is a FreeBSD-based netwo
 * Routing Policy
 * Redistribution Policy
 * Firewall Filter
-* MPLS Configuration        -> [Bonus]
-* I-BGP Route Reflector     -> [Bonus]
-* MPLS L2VPN Configuration  -> [Bonus]
-* VPLS Configuration        -> [Bonus]
-* MPLS L3VPN Configuration  -> [Bonus]
-* LACP Configuration        -> [Bonus]
+* MPLS Configuration  [Bonus]
+* I-BGP Route Reflector  [Bonus]
+* MPLS L2VPN Configuration  [Bonus]
+* VPLS Configuration  [Bonus]
+* MPLS L3VPN Configuration  [Bonus]
+* LACP Configuration  [Bonus]
 
 ## Junos Advantages
 #### 1. Separation of Resources
@@ -691,10 +691,105 @@ root> show rsvp interface
 ## I-BGP Route Reflector
 
 #### BGP Route Reflector (Master)
+* Router RR
+```
+root# set routing-options graceful-restart
+root# set routing-options router-id [IP_LOOPBACK]
+root# set routing-options autonomous-system [AS-NUMBER]
+root# set protocols bgp log-updown
+root# set protocols bgp group [BGP_GROUP_RR_CLIENT] type internal
+root# set protocols bgp group [BGP_GROUP_RR_CLIENT] local-address [IP_LOOPBACK]
+root# set protocols bgp group [BGP_GROUP_RR_CLIENT] family inet-vpn unicast  <- VPNV4
+root# set protocols bgp group [BGP_GROUP_RR_CLIENT] authentication-key [PASSWORD]
+root# set protocols bgp group [BGP_GROUP_RR_CLIENT] cluster [CLUSTER_ID]
+root# set protocols bgp group [BGP_GROUP_RR_CLIENT] peer-as [AS_NUMBER_PEERING]
+root# set protocols bgp group [BGP_GROUP_RR_CLIENT] neighbor [IP_RR_CLIENT_A] description [DESCRIPTION]
+root# set protocols bgp group [BGP_GROUP_RR_CLIENT] neighbor [IP_RR_CLIENT_B] description [DESCRIPTION]
+root# set protocols bgp group [BGP_GROUP_RR_CLIENT] neighbor [IP_RR_CLIENT_C] description [DESCRIPTION]
+root# set protocols bgp group [BGP_GROUP_RR_CLIENT] neighbor [IP_RR_CLIENT_D] description [DESCRIPTION]
+root# show | compare
+root# commit
+```
+
+* Verification
+```
+root> show bgp summary 
+root> show bgp neighbor
+```
 
 #### BGP Router Client (Client)
+* Router Client
+```
+root# set routing-options graceful-restart
+root# set routing-options router-id [IP_LOOPBACK]
+root# set routing-options autonomous-system [AS-NUMBER]
+root# set protocols bgp log-updown
+root# set protocols bgp group [BGP_GROUP] type internal
+root# set protocols bgp group [BGP_GROUP] local-address [IP_LOOPBACK]
+root# set protocols bgp group [BGP_GROUP] family inet-vpn unicast  <- VPNV4
+root# set protocols bgp group [BGP_GROUP] authentication-key [PASSWORD]
+root# set protocols bgp group [BGP_GROUP] cluster [CLUSTER_ID]
+root# set protocols bgp group [BGP_GROUP] peer-as [AS_NUMBER_PEERING]
+root# set protocols bgp group [BGP_GROUP] neighbor [IP_ROUTE_REFLECTOR] description [DESCRIPTION]
+root# show | compare
+root# commit
+```
+
+* Verification
+```
+root> show bgp summary 
+root> show bgp neighbor
+```
 
 ## MPLS L2VPN Configuration
+
+#### Far End
+* L2VPN
+```
+root# set protocols l2circuit neighbor "near-end loopback" interface ge-0/0/1.10 virtual-circuit-id 10
+root# set protocols l2circuit neighbor "near-end loopback" interface ge-0/0/1.10 description L2VPN
+root# set protocols l2circuit neighbor "near-end loopback" interface ge-0/0/1.10 no-control-word
+root# set protocols l2circuit neighbor "near-end loopback" interface ge-0/0/1.10 ignore-encapsulation-mismatch
+```
+
+* Service Instance
+```
+root# set interfaces ge-0/0/1 flexible-vlan-tagging
+root# set interfaces ge-0/0/1 mtu 1900
+root# set interfaces ge-0/0/1 encapsulation flexible-ethernet-services
+root# set interfaces ge-0/0/1 unit 10 description L2VPN
+root# set interfaces ge-0/0/1 unit 10 encapsulation vlan-ccc
+root# set interfaces ge-0/0/1 unit 10 vlan-id 10
+```
+
+* Verification
+```
+root# run show l2circuit connections
+```
+
+#### Near End
+* L2VPN
+```
+root# set protocols l2circuit neighbor "far-end loopback" interface ge-0/0/1.10 virtual-circuit-id 10
+root# set protocols l2circuit neighbor "far-end loopback" interface ge-0/0/1.10 description L2VPN
+root# set protocols l2circuit neighbor "far-end loopback" interface ge-0/0/1.10 no-control-word
+root# set protocols l2circuit neighbor "far-end loopback" interface ge-0/0/1.10 ignore-encapsulation-mismatch
+```
+
+* Service Instance
+```
+root# set interfaces ge-0/0/1 flexible-vlan-tagging
+root# set interfaces ge-0/0/1 mtu 1900
+root# set interfaces ge-0/0/1 encapsulation flexible-ethernet-services
+root# set interfaces ge-0/0/1 unit 10 description L2VPN
+root# set interfaces ge-0/0/1 unit 10 encapsulation vlan-ccc
+root# set interfaces ge-0/0/1 unit 10 vlan-id 10
+```
+
+* Verification
+```
+root# run show l2circuit connections
+```
 
 ## VPLS Configuration
 
