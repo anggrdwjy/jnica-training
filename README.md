@@ -793,7 +793,7 @@ root# run show l2circuit connections
 
 ## VPLS Configuration
 
-#### Far End
+#### 1. Far End
 * VPLS
 ```
 root# set routing-instances "to Near-end" instance-type vpls 
@@ -824,7 +824,7 @@ root> show vpls mac-table brief
 root> show route forwarding-table family vpls
 ```
 
-#### Near End
+#### 2. Near End
 * VPLS
 ```
 root# set routing-instances "to Far-end" instance-type vpls 
@@ -857,7 +857,7 @@ root> show route forwarding-table family vpls
 
 ## MPLS L3VPN Configuration
 
-#### Virtual Routing Forwarding
+#### 1. Virtual Routing Forwarding
 * VPN Policy
 ```
 root# set policy-options policy-statement VPN-SERVER-XYZ-EXPORT term 1 then community add target:65000:100 
@@ -886,7 +886,7 @@ root# set interfaces ge-0/0/1 mtu 1500
 root# set interfaces ge-0/0/1 unit 0 family inet address 192.110.0.1/30 
 ```
 
-#### VRF Option Inter AS (AS-Overide)
+#### 2. VRF Option Inter AS (AS-Overide)
 * VPN Policy
 ```
 root# set policy-options policy-statement VPN-SERVER-12-EXPORT term 1 then community add target:65000:200 
@@ -939,7 +939,7 @@ root# ping [DESTINATION_IP] source [SOURCE_IP]
 root# traceroute [DESTINATION_IP] source [SOURCE_IP]
 ```
 
-#### VRF Option Inter OSPF (Sham-Link)
+#### 3. VRF Option Inter OSPF (Sham-Link)
 * VPN Policy
 ```
 root# set policy-options policy-statement VPN-OSPF-AB-EXPORT term 1 then community add target:65000:300 
@@ -990,7 +990,28 @@ root# ping [DESTINATION_IP] source [SOURCE_IP]
 root# traceroute [DESTINATION_IP] source [SOURCE_IP]
 ```
 
-## LACP Configuration
+## LACP (Link Aggregation Control Protocol)
+#### LACP
+* LACP Confifugraiton
+```
+
+```
+
+* VLAN Tagging
+```
+set interfaces ae3 unit 123 description [DESCRIPTION]
+set interfaces ae3 unit 123 vlan-id 123
+set interfaces ae3 unit 123 family inet filter input [POLICY_FILTER]
+set interfaces ae3 unit 123 family inet address [X.X.X.X/YY]
+```
+
+* Port Interface
+```
+set interfaces [PORT_INTERFACE] description [DESCRIPTION]
+set interfaces [PORT_INTERFACE] gigether-options no-flow-control
+set interfaces [PORT_INTERFACE] gigether-options no-auto-negotiation
+set interfaces [PORT_INTERFACE] gigether-options 802.3ad ae3
+``` 
 
 ## Support
 
