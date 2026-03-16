@@ -991,26 +991,31 @@ root# traceroute [DESTINATION_IP] source [SOURCE_IP]
 ```
 
 ## LACP (Link Aggregation Control Protocol)
-#### LACP
+
 * LACP Confifugraiton
 ```
-
+root# set interfaces ae3 description [DESCRIPTION]
+root# set interfaces ae3 flexible-vlan-tagging
+root# set interfaces ae3 mtu [1500 - 9000]
+root# set interfaces ae3 aggregated-ether-options minimum-links 1
+root# set interfaces ae3 aggregated-ether-options link-speed [BANDWIDTH_REFERENCE]
+root# set interfaces ae3 aggregated-ether-options lacp active
 ```
 
 * VLAN Tagging
 ```
-set interfaces ae3 unit 123 description [DESCRIPTION]
-set interfaces ae3 unit 123 vlan-id 123
-set interfaces ae3 unit 123 family inet filter input [POLICY_FILTER]
-set interfaces ae3 unit 123 family inet address [X.X.X.X/YY]
+root# set interfaces ae3 unit 123 description [DESCRIPTION]
+root# set interfaces ae3 unit 123 vlan-id 123
+root# set interfaces ae3 unit 123 family inet filter input [POLICY_FILTER]
+root# set interfaces ae3 unit 123 family inet address [X.X.X.X/YY]
 ```
 
 * Port Interface
 ```
-set interfaces [PORT_INTERFACE] description [DESCRIPTION]
-set interfaces [PORT_INTERFACE] gigether-options no-flow-control
-set interfaces [PORT_INTERFACE] gigether-options no-auto-negotiation
-set interfaces [PORT_INTERFACE] gigether-options 802.3ad ae3
+root# set interfaces [PORT_INTERFACE] description [DESCRIPTION]
+root# set interfaces [PORT_INTERFACE] gigether-options no-flow-control
+root# set interfaces [PORT_INTERFACE] gigether-options no-auto-negotiation
+root# set interfaces [PORT_INTERFACE] gigether-options 802.3ad ae3
 ``` 
 
 ## Support
