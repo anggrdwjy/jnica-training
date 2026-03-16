@@ -528,7 +528,7 @@ D. BGP
 - Import Policy : Accept All Route from BGP
 - Export Policy : Export to all active BGP neighbor
 
-* Example OSPF Policy
+#### Example OSPF Policy
 ```
 root# set policy-options policy-statement "ospf-term" term 1 from route-filter "ip address /xx" exact
 root# set policy-options policy-statement "ospf-term" term 1 then accept
