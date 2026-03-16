@@ -663,7 +663,7 @@ root> show ldp session
 ```
 
 #### 3. LLDP (Link Layer Discovery Protocol)
-* LLDP
+* LLDP Configuration
 ```
 root# set protocols lldp interface em0
 root# set protocols lldp interface em1
@@ -676,7 +676,7 @@ root> show lldp detail
 ```
 
 #### 4. RSVP (Resource Reservation Protocol)
-* RSVP
+* RSVP Configuration
 ```
 root# set protocols rsvp interface lo0
 root# set protocols rsvp interface em0
@@ -691,7 +691,7 @@ root> show rsvp interface
 ## I-BGP Route Reflector
 
 #### 1. BGP Route Reflector (Master)
-* Router RR
+* Router Router Reflector
 ```
 root# set routing-options graceful-restart
 root# set routing-options router-id [IP_LOOPBACK]
@@ -744,7 +744,7 @@ root> show bgp neighbor
 ## MPLS L2VPN Configuration
 
 #### 1. Far End
-* L2VPN
+* L2VPN Configuration
 ```
 root# set protocols l2circuit neighbor "near-end loopback" interface ge-0/0/1.10 virtual-circuit-id 10
 root# set protocols l2circuit neighbor "near-end loopback" interface ge-0/0/1.10 description L2VPN
@@ -768,7 +768,7 @@ root# run show l2circuit connections
 ```
 
 #### 2. Near End
-* L2VPN
+* L2VPN Configuration
 ```
 root# set protocols l2circuit neighbor "far-end loopback" interface ge-0/0/1.10 virtual-circuit-id 10
 root# set protocols l2circuit neighbor "far-end loopback" interface ge-0/0/1.10 description L2VPN
@@ -794,7 +794,7 @@ root# run show l2circuit connections
 ## VPLS Configuration
 
 #### 1. Far End
-* VPLS
+* VPLS Configuration
 ```
 root# set routing-instances "to Near-end" instance-type vpls 
 root# set routing-instances "to Near-end" interface ge-0/0/4.0 
@@ -825,7 +825,7 @@ root> show route forwarding-table family vpls
 ```
 
 #### 2. Near End
-* VPLS
+* VPLS Configuration
 ```
 root# set routing-instances "to Far-end" instance-type vpls 
 root# set routing-instances "to Far-end" interface ge-0/0/4.0 
