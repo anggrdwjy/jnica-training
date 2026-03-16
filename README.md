@@ -55,13 +55,13 @@ root> ping
 root> traceroute
 root> ssh
 root> telnet
+root> run
 root> show
 ```
 
 #### 3. Confiugration Mode (Root and User Privilege)
 ```
 root> configure
-root> run
 root# edit
 root# set
 ```
