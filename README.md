@@ -69,9 +69,9 @@ root# set
 
 #### 1. Navigation Configuration (Hirarcy)
 ```
-root# up (back hirarcy)
-root# up 3 (back 3 hirarcy)
-root# top (back to top hirarcy)
+root# up    -> back hirarcy
+root# up 3  -> back 3 hirarcy
+root# top   -> back to top hirarcy
 ```
 
 #### 2. Hostname
@@ -127,10 +127,10 @@ root# run show
 ```
 root# commit check
 root# commit and-quit
-root# commit at "2026-03-26 24:00:00" -> Schedule commit time
-root# commit confirmed -> 10minutes rollback configuration (default)
-root# commit confirmed 1 (1 minute)
-root# commit confirmed 20 (20 minute)
+root# commit at "2026-03-26 24:00:00"    -> Schedule commit time
+root# commit confirmed                   -> 10minutes rollback configuration (default)
+root# commit confirmed 1                 -> 1 minute
+root# commit confirmed 20                -> 20 minute
 root# commit comment "remove xxyyzz"
 root# show system commit
 ```
@@ -144,12 +144,12 @@ root# rollback 0 -> discard candidate configuration
 #### 7. Date and Time
 * Set Date
 ```
-root> run set date 202603060100.00 -> Operational Mode
+root> run set date 202603060100.00      -> Operational Mode
 ```
 
 * Set Timezone
 ```
-root# set system timezone Asia/Jakarta -> Configuration Mode
+root# set system timezone Asia/Jakarta    -> Configuration Mode
 root# show | compare
 root# commit
 ```
@@ -161,8 +161,8 @@ root# show system uptime
 
 #### 8. NTP (Network Time Protocol)
 ```
-root# set system ntp server id.pool.ntp.org -> Domain
-root# set system ntp ervr 162.159.200.123 -> IP 
+root# set system ntp server id.pool.ntp.org     -> Domain
+root# set system ntp ervr 162.159.200.123       -> IP 
 root# show | compare
 root# commit
 ```
@@ -492,15 +492,15 @@ root# show route protocol ospf
 ## Firewall Filter
 
 #### 1. Firewall Concept
-* Discard  -> Bloking
-* Reject   -> Bloking with Notification
+* Discard      -> Bloking
+* Reject       -> Bloking with Notification
   
 #### 2. Reject Ping (ICMP)
 * Set Term Firewall Filter ICMP (Reject)
 ```
 root# set firewall filter FILTER-PING term FILTER-TERM-1
-root# set firewall filter FILTER-PING term FILTER-TERM-1 from source-address 10.xx.yy.zz/24	-> Network Destination
-root# set firewall filter FILTER-PING term FILTER-TERM-1 from destination-address 1.1.1.1/32	-> Loopback R1
+root# set firewall filter FILTER-PING term FILTER-TERM-1 from source-address 10.xx.yy.zz/24     -> Network Destination
+root# set firewall filter FILTER-PING term FILTER-TERM-1 from destination-address 1.1.1.1/32    -> Loopback R1
 root# set firewall filter FILTER-PING term FILTER-TERM-1 from protocol icmp 
 root# set firewall filter FILTER-PING term FILTER-TERM-1 then reject
 root# show | compare
