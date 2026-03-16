@@ -137,7 +137,7 @@ root# commit comment "remove xxyyzz"
 root# show system commit
 ```
 
-* Rollback commit comment maks 49 list
+* Rollback commit comment max 49 list
 ```
 root# rollback 1 -> back configuration commit 1
 root# rollback 0 -> discard candidate configuration
@@ -146,7 +146,7 @@ root# rollback 0 -> discard candidate configuration
 #### 7. Date and Time
 * Set Date
 ```
-root> run set date 202603060100.00      -> Operational Mode
+root> run set date 202603060100.00        -> Operational Mode
 ```
 
 * Set Timezone
