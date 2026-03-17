@@ -26,27 +26,27 @@
 
 ## Junos Advantages
 #### 1. Separation of Resources
-* Control Engine (Core System)
-* Forwarding Engine (Forwarding Data)
-* Service Engine (SNMP, SSH, TELNET, etc)
+  * Control Engine (Core System)
+  * Forwarding Engine (Forwarding Data)
+  * Service Engine (SNMP, SSH, TELNET, etc)
 
 #### 2. Single Operating System (Junos)
-* Routing Engine (OSPF, ISIS, BGP)
-* Packet Forwarding Engine (Forwarding Data)
+  * Routing Engine (OSPF, ISIS, BGP)
+  * Packet Forwarding Engine (Forwarding Data)
 
 #### 3. Junos Devices
-* Switch (EX Series, QFX Series)
-* Router (ACX Series, MX Series, PTX Series)
-* Firewall (SRX Series)
-* Cloud Virtual (vMX, vSRX, vQFX)
+  * Switch (EX Series, QFX Series)
+  * Router (ACX Series, MX Series, PTX Series)
+  * Firewall (SRX Series)
+  * Cloud Virtual (vMX, vSRX, vQFX)
 
 #### 4. Certification Track
-* Routing and Switching (JNCIA, JNCIS, JNCIP, JNCIE)
-* Datacenter
-* Security
-* Cloud
-* Automation
-* Design
+  * Routing and Switching (JNCIA, JNCIS, JNCIP, JNCIE)
+  * Datacenter
+  * Security
+  * Cloud
+  * Automation
+  * Design
 
 ## 3 Mode of Junos
 #### 1. Unix Mode (Root Privilege)
