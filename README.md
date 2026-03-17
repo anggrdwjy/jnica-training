@@ -50,380 +50,380 @@
 
 ## 3 Mode of Junos
 #### 1. Unix Mode (Root Privilege)
-```
-root@:~ # cli
-root>
-```
+ ```
+ root@:~ # cli
+ root>
+ ```
   
 #### 2. Operational Mode (User Privilege)
-```
-root> ping
-root> traceroute
-root> ssh
-root> telnet
-root> run
-root> show
-```
+ ```
+ root> ping
+ root> traceroute
+ root> ssh
+ root> telnet
+ root> run
+ root> show
+ ```
 
 #### 3. Confiugration Mode (Root and User Privilege)
-```
-root> configure
-root# edit
-root# set
-```
+ ```
+ root> configure
+ root# edit
+ root# set
+ ```
 ## Basic Configuration
 
 #### 1. Navigation Configuration (Hirarcy)
-```
-root# up    -> back hirarcy
-root# up 3  -> back 3 hirarcy
-root# top   -> back to top hirarcy
-```
+ ```
+ root# up    -> back hirarcy
+ root# up 3  -> back 3 hirarcy
+ root# top   -> back to top hirarcy
+ ```
 
 #### 2. Hostname
-```
-root# set system host-name "hostname"
-```
+ ```
+ root# set system host-name "hostname"
+ ```
 
 #### 3. Root Password
-```
-root# set system root-authentication plain-text-password
-"...." -> Password
-root# commit
-```
+ ```
+ root# set system root-authentication plain-text-password
+ "...." -> Password
+ root# commit
+ ```
 
 #### 4. Username and Password
 * Superuser
-```
-root# set system login user [username] class super-user
-root# set system login user [username] authentication plain-text-password
-"...." -> Password
-root# commit
-```
+ ```
+ root# set system login user [username] class super-user
+ root# set system login user [username] authentication plain-text-password
+ "...." -> Password
+ root# commit
+ ```
 
 * Operator
-```
-root# set system login user [username] class operator
-root# set system login user [username] authentication plain-text-password
-"...." -> Password
-root# commit
-```
+ ```
+ root# set system login user [username] class operator
+ root# set system login user [username] authentication plain-text-password
+ "...." -> Password
+ root# commit
+ ```
 
 * Admin
-```
-root# set system login user [username] class admin
-root# set system login user [username] authentication plain-text-password
-"...." -> Password
-root# commit
-```
+ ```
+ root# set system login user [username] class admin
+ root# set system login user [username] authentication plain-text-password
+ "...." -> Password
+ root# commit
+ ```
 
 #### 5. Candidate and Active Configuration
 * Candidate
-```
-root> show
-```
+ ```
+ root> show
+ ```
 
 * Active
-```
-root# run show
-```
+ ```
+ root# run show
+ ```
 
 #### 6. Commit Example
 * Commit
-```
-root# commit check
-root# commit and-quit
-root# commit at "2026-03-26 24:00:00"    -> Schedule commit time
-root# commit confirmed                   -> 10minutes rollback configuration (default)
-root# commit confirmed 1                 -> 1 minute
-root# commit confirmed 20                -> 20 minute
-root# commit comment "remove xxyyzz"
-root# show system commit
-```
+ ```
+ root# commit check
+ root# commit and-quit
+ root# commit at "2026-03-26 24:00:00"    -> Schedule commit time
+ root# commit confirmed                   -> 10minutes rollback configuration (default)
+ root# commit confirmed 1                 -> 1 minute
+ root# commit confirmed 20                -> 20 minute
+ root# commit comment "remove xxyyzz"
+ root# show system commit
+ ```
 
 * Rollback commit comment max 49 list
-```
-root# rollback 1 -> back configuration commit 1
-root# rollback 0 -> discard candidate configuration
-```
+ ```
+ root# rollback 1 -> back configuration commit 1
+ root# rollback 0 -> discard candidate configuration
+ ```
 
 #### 7. Date and Time
 * Set Date
-```
-root> run set date 202603060100.00        -> Operational Mode
-```
+ ```
+ root> run set date 202603060100.00        -> Operational Mode
+ ```
 
 * Set Timezone
-```
-root# set system timezone Asia/Jakarta    -> Configuration Mode
-root# show | compare
-root# commit
-```
+ ```
+ root# set system timezone Asia/Jakarta    -> Configuration Mode
+ root# show | compare
+ root# commit
+ ```
 
 * Verification
-```
-root# show system uptime
-```
+ ```
+ root# show system uptime
+ ```
 
 #### 8. NTP (Network Time Protocol)
 * Basic 
-```
-root# set system ntp server id.pool.ntp.org     -> Domain
-root# set system ntp server 162.159.200.123     -> IP 
-root# show | compare
-root# commit
-```
+ ```
+ root# set system ntp server id.pool.ntp.org     -> Domain
+ root# set system ntp server 162.159.200.123     -> IP 
+ root# show | compare
+ root# commit
+ ```
 
 * Advanced
-```
-root# set system ntp boot-server "ntp server main"
-root# set system ntp server "ntp server main" prefer
-root# set system ntp server "ntp server backup"
-root# set system ntp source-address "loopback"
-root# show | compare
-root# commit
-```
+ ```
+ root# set system ntp boot-server "ntp server main"
+ root# set system ntp server "ntp server main" prefer
+ root# set system ntp server "ntp server backup"
+ root# set system ntp source-address "loopback"
+ root# show | compare
+ root# commit
+ ```
 
 #### 9. SSH (Default Port 22), FTP, TELNET
-```
-root# set system services ssh
-root# set system services ftp
-root# set system services telnet
-```
+ ```
+ root# set system services ssh
+ root# set system services ftp
+ root# set system services telnet
+ ```
 
 #### 10. Delete, Active and Deactive Mode
 * Delete Configuration
-```
-root# delete ...
-```
+ ```
+ root# delete ...
+ ```
 
 * Disable Configuration
-```
-root# deactive ...
-```
+ ```
+ root# deactive ...
+ ```
 
 * Active Configuration
-```
-root# active ...
-```
+ ```
+ root# active ...
+ ```
 
 #### 11. Rename and Replace Parameter
 * Rename Example
-```
-root# edit system
-root# rename user "user" to "user10"
-root# show | compare
-root# commit
-```
+ ```
+ root# edit system
+ root# rename user "user" to "user10"
+ root# show | compare
+ root# commit
+ ```
 
 * Replace Example
-```
-root# edit system
-root# replace pattern user "user" with "superuser"
-root# show | compare
-root# commit
-```
+ ```
+ root# edit system
+ root# replace pattern user "user" with "superuser"
+ root# show | compare
+ root# commit
+ ```
 
 #### 12. Pipeline
-```
-root# show | match [parameter]
-root# show | no-more
-root# show | display set
-```
+ ```
+ root# show | match [parameter]
+ root# show | no-more
+ root# show | display set
+ ```
 
 #### 13. Backup, Restore, Load Merge Configuration
 * Backup Configuration
-```
-root# save "backup_config"
-```
+ ```
+ root# save "backup_config"
+ ```
 
 * Verification Backup Configuration
-```
-root# run file list
-root# cat "backup_config"
-```
+ ```
+ root# run file list
+ root# cat "backup_config"
+ ```
 
 * Restore Configuration
-```
-root# load override "old_config"
-root# show | compare
-root# commit
-```
+ ```
+ root# load override "old_config"
+ root# show | compare
+ root# commit
+ ```
 
 * Load Merge Configuration
-```
-root# load merge "old_config"
-root# show | compare
-root# commit
-```
+ ```
+ root# load merge "old_config"
+ root# show | compare
+ root# commit
+ ```
 
 #### 14. Reset Configuration
 * Reset Factory Default
-```
-root# load factory-default
-root# show | compare
-root# commit
-```
+ ```
+ root# load factory-default
+ root# show | compare
+ root# commit
+ ```
 
 #### 15. Configure
 * Configure
-```
-root# set ...
-root# show | compare
-root# commit
-```
+ ```
+ root# set ...
+ root# show | compare
+ root# commit
+ ```
 
 * Configure Private
-```
-root# configure private
-root# set ...
-root# show | compare
-root# commit
-```
+ ```
+ root# configure private
+ root# set ...
+ root# show | compare
+ root# commit
+ ```
 
 * Configure Exclusive
-```
-root# configure exclusive
-root# set ...
-root# show | compare
-root# commit
-```
+ ```
+ root# configure exclusive
+ root# set ...
+ root# show | compare
+ root# commit
+ ```
 
 #### 16. Interface Configuration
 * Loopback Configuration
-```
-root# set interfaces lo0 unit 0 description
-root# set interfaces lo0 unit 0 family inet address 1.1.1.1/32
-root# commit
-```
+ ```
+ root# set interfaces lo0 unit 0 description
+ root# set interfaces lo0 unit 0 family inet address 1.1.1.1/32
+ root# commit
+ ```
 
 * Interface Configuration
-```
-root# set interfaces em0 unit 0 description
-root# set interfaces em0 unit 0 family inet address 10.10.10.1/24
-root# commit
-```
+ ```
+ root# set interfaces em0 unit 0 description
+ root# set interfaces em0 unit 0 family inet address 10.10.10.1/24
+ root# commit
+ ```
 
 * Verification
-```
-root> run show interfaces terse
-root> run show interfaces brief
-root> run ping 10.10.10.x
-```
+ ```
+ root> run show interfaces terse
+ root> run show interfaces brief
+ root> run ping 10.10.10.x
+ ```
 
 * Maximum Transmission Unit (MTU)
-```
-root# set interfaces em0 mtu "range 1998 - 9200"
-root# show | compare
-root# commit
-```
+ ```
+ root# set interfaces em0 mtu "range 1998 - 9200"
+ root# show | compare
+ root# commit
+ ```
 
 #### 17. SNMP (Simple Network Management Protocol)
 * SNMP 
-```
-root# set snmp description snmpfilter
-root# set snmp location "hostname"
-root# set snmp contact "mail / contact center"
-root# set snmp community "snmp community" authorization read-only
-root# set snmp community "snmp community" clients "ip target 1"
-root# set snmp community "snmp community" clients "ip target 2"
-root# commit
-```
+ ```
+ root# set snmp description snmpfilter
+ root# set snmp location "hostname"
+ root# set snmp contact "mail / contact center"
+ root# set snmp community "snmp community" authorization read-only
+ root# set snmp community "snmp community" clients "ip target 1"
+ root# set snmp community "snmp community" clients "ip target 2"
+ root# commit
+ ```
 
 ## Routing Configuration
 
 #### 1. Static Routing
 * Static Route Configuration
-```
-root# set routing-options static route "destination_network" next-hop "gateway"
-root# show | compare
-root# commit
-```
+ ```
+ root# set routing-options static route "destination_network" next-hop "gateway"
+ root# show | compare
+ root# commit
+ ```
 
 * Routing Table Static
-```
-root# show route protocol static
-```
+ ```
+ root# show route protocol static
+ ```
 
 * Delete Static Route
-```
-root# delete routing-options static
-root# show | compare
-root# commit
-```
+ ```
+ root# delete routing-options static
+ root# show | compare
+ root# commit
+ ```
 
 * Static Route Preference
-```
-root# set routing-options static route "destination_network" next-hop "gateway" preference "value"
-```
+ ```
+ root# set routing-options static route "destination_network" next-hop "gateway" preference "value"
+ ```
 
 #### 2. OSPF Routing
 * Router ID
-```
-root# set routing-options router-id 1.1.1.1
-```
+ ```
+ root# set routing-options router-id 1.1.1.1
+ ```
 
 * OSPF Advertise Routing Single Area
-```
-root# set protocols ospf area 1 interface em0
-root# set protocols ospf area 1 interface em1
-root# set protocols ospf area 1 interface lo0
-root# show | compare
-root# commit
-```
+ ```
+ root# set protocols ospf area 1 interface em0
+ root# set protocols ospf area 1 interface em1
+ root# set protocols ospf area 1 interface lo0
+ root# show | compare
+ root# commit
+ ```
 
 * OSPF Advertise Routing Multi Area
-```
-root# set routing-options router-id 2.2.2.2
-root# set protocols ospf area 1 interface em0
-root# set protocols ospf area 2 interface em1
-root# set protocols ospf area 0 interface lo0
-root# show | compare
-root# commit
-```
+ ```
+ root# set routing-options router-id 2.2.2.2
+ root# set protocols ospf area 1 interface em0
+ root# set protocols ospf area 2 interface em1
+ root# set protocols ospf area 0 interface lo0
+ root# show | compare
+ root# commit
+ ```
 
 * Verification
-```
-root# show configuration routing-options
-root# show configuration protocols ospf
-root# show ospf neighbor
-root# show ospf interface
-root# show ospf route
-root# show route protocol ospf
-```
+ ```
+ root# show configuration routing-options
+ root# show configuration protocols ospf
+ root# show ospf neighbor
+ root# show ospf interface
+ root# show ospf route
+ root# show route protocol ospf
+ ```
 
 * Migration Area OSPF (Rename Area)
-```
-root# edit protocols ospf
-root# rename area 0 to area 100
-root# show | compare
-root# commit
-```
+ ```
+ root# edit protocols ospf
+ root# rename area 0 to area 100
+ root# show | compare
+ root# commit
+ ```
 
 * Advanced OSPF
-```
-root# set protocols ospf area "id area" interface "loopback" interface-type p2p
-root# set protocols ospf area "id area" interface "loopback" metric "1 - 65000"    -> MTU
-```
-```
-root# set protocols ospf area "id area" interface "port" interface-type p2p
-root# set protocols ospf area "id area" interface "port" metric "1 - 65000"    -> MTU
-root# set protocols ospf area "id area" interface "port" hello-interval 5
-root# set protocols ospf area "id area" interface "port" dead-interval 15
-root# set protocols ospf area "id area" interface "port" authentication md5 1 key "password"
-```
+ ```
+ root# set protocols ospf area "id area" interface "loopback" interface-type p2p
+ root# set protocols ospf area "id area" interface "loopback" metric "1 - 65000"    -> MTU
+ ```
+ ```
+ root# set protocols ospf area "id area" interface "port" interface-type p2p
+ root# set protocols ospf area "id area" interface "port" metric "1 - 65000"    -> MTU
+ root# set protocols ospf area "id area" interface "port" hello-interval 5
+ root# set protocols ospf area "id area" interface "port" dead-interval 15
+ root# set protocols ospf area "id area" interface "port" authentication md5 1 key "password"
+ ```
 
 * OSPF Traffic-Engineering and Reference Bandwidth
-```
-root# set protocols ospf traffic-engineering
-root# set protocols ospf reference-bandwidth "1G/10G/100G"
-```
-
-* OSPF BFD (Bidirectional Forwarding Detection)
-```
-root# set protocols ospf area "id area" interface "port" bfd-liveness-detection minimum interval 300
-root# set protocols ospf area "id area" interface "port" bfd-liveness-detection multiplier 3
-```
+ ```
+ root# set protocols ospf traffic-engineering
+ root# set protocols ospf reference-bandwidth "1G/10G/100G"
+ ```
+ 
+ * OSPF BFD (Bidirectional Forwarding Detection)
+ ```
+ root# set protocols ospf area "id area" interface "port" bfd-liveness-detection minimum interval 300
+ root# set protocols ospf area "id area" interface "port" bfd-liveness-detection multiplier 3
+ ```
 
 #### 3. IS-IS Routing
 * Overview IS-IS
@@ -458,59 +458,59 @@ root# set protocols ospf area "id area" interface "port" bfd-liveness-detection 
   ```
 
 * IS-IS Loopback
-```
-root# set interface lo0 unit 0 family inet address 1.0.0.1/32
-root# set interface em0 unit 0 family inet address 1.1.1.1/30
-root# set interface em1 unit 0 family inet address 1.1.1.2/30
-root# set interface em2 unit 0 family inet address s1.1.1.3/30
-```
+ ```
+ root# set interface lo0 unit 0 family inet address 1.0.0.1/32
+ root# set interface em0 unit 0 family inet address 1.1.1.1/30
+ root# set interface em1 unit 0 family inet address 1.1.1.2/30
+ root# set interface em2 unit 0 family inet address s1.1.1.3/30
+ ```
   
 * IS-IS Interface
-```
-root# set interface lo0 unit 0 family iso address 49.0001.1720.1400.4004.00
-root# set interface em0 unit 0 family iso
-root# set interface em1 unit 0 family iso
-root# set interface em2 unit 0 family iso
-```
+ ```
+ root# set interface lo0 unit 0 family iso address 49.0001.1720.1400.4004.00
+ root# set interface em0 unit 0 family iso
+ root# set interface em1 unit 0 family iso
+ root# set interface em2 unit 0 family iso
+ ```
   
 * IS-IS Advertise Routing Level-1
-```
-root# set protocols isis interface lo0 level 2 disable (level 1 enable)
-root# set protocols isis interface em0 level 2 disable (level 1 enable)
-root# set protocols isis interface em1 level 2 disable (level 1 enable)
-root# set protocols isis interface em2 level 2 disable (level 1 enable)
-```
+ ```
+ root# set protocols isis interface lo0 level 2 disable (level 1 enable)
+ root# set protocols isis interface em0 level 2 disable (level 1 enable)
+ root# set protocols isis interface em1 level 2 disable (level 1 enable)
+ root# set protocols isis interface em2 level 2 disable (level 1 enable)
+ ```
   
 * IS-IS Advertise Routing Level-2
-```
-root# set protocols isis interface lo0 level 1 disable (level 2 enable)
-root# set protocols isis interface em0 level 1 disable (level 2 enable)
-root# set protocols isis interface em1 level 1 disable (level 2 enable)
-root# set protocols isis interface em2 level 1 disable (level 2 enable)
-```
+ ```
+ root# set protocols isis interface lo0 level 1 disable (level 2 enable)
+ root# set protocols isis interface em0 level 1 disable (level 2 enable)
+ root# set protocols isis interface em1 level 1 disable (level 2 enable)
+ root# set protocols isis interface em2 level 1 disable (level 2 enable)
+ ```
   
 * IS-IS Advertise Routing Level-2 and Level-1
-```
-root# set protocols isis interface lo0 level 2 disable (level 1 enable)
-root# set protocols isis interface em0 level 2 disable (level 1 enable)
-root# set protocols isis interface em1 level 1 disable (level 2 enable)
-root# set protocols isis interface em2 level 1 disable (level 2 enable)
-```
+ ```
+ root# set protocols isis interface lo0 level 2 disable (level 1 enable)
+ root# set protocols isis interface em0 level 2 disable (level 1 enable)
+ root# set protocols isis interface em1 level 1 disable (level 2 enable)
+ root# set protocols isis interface em2 level 1 disable (level 2 enable)
+ ```
   
 * Verification
-```
-root# show route protocol isis
-root# show isis interface
-root# show isis summary
-root# show isis adjacency detail
-root# show isis database
-```
+ ```
+ root# show route protocol isis
+ root# show isis interface
+ root# show isis summary
+ root# show isis adjacency detail
+ root# show isis database
+ ```
 
 * IS-IS Advanced
-```
-root# set protocol isis level 1 wide-metrics-only    -> Intra Area
-root# set protocol isis level 2 wide-metrics-only    -> Inter Area
-```
+ ```
+ root# set protocol isis level 1 wide-metrics-only    -> Intra Area
+ root# set protocol isis level 2 wide-metrics-only    -> Inter Area
+ ```
 
 ## Routing Policy
 
