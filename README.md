@@ -51,7 +51,10 @@
 ## 3 Mode of Junos
 #### 1. Unix Mode (Root Privilege)
  ```
- root@:~ # cli
+ Amnesiac (ttyd0)
+ login: root
+ root@%
+ root@% cli
  root>
  ```
   
@@ -59,10 +62,9 @@
  ```
  root> ping
  root> traceroute
- root> ssh
- root> telnet
- root> run
- root> show
+ root> ssh user@1.1.1.1
+ root> telnet 1.1.1.1
+ root> show configuration
  ```
 
 #### 3. Confiugration Mode (Root and User Privilege)
@@ -83,12 +85,14 @@
 #### 2. Hostname
  ```
  root# set system host-name "hostname"
+ root# show | compare
  ```
 
 #### 3. Root Password
  ```
  root# set system root-authentication plain-text-password
  "...." -> Password
+ root# show | compare
  root# commit
  ```
 
@@ -98,6 +102,7 @@
  root# set system login user [username] class super-user
  root# set system login user [username] authentication plain-text-password
  "...." -> Password
+ root# show | compare
  root# commit
  ```
 
@@ -106,6 +111,7 @@
  root# set system login user [username] class operator
  root# set system login user [username] authentication plain-text-password
  "...." -> Password
+ root# show | compare
  root# commit
  ```
 
@@ -114,6 +120,7 @@
  root# set system login user [username] class admin
  root# set system login user [username] authentication plain-text-password
  "...." -> Password
+ root# show | compare
  root# commit
  ```
 
@@ -150,7 +157,7 @@
 #### 7. Date and Time
 * Set Date
  ```
- root> run set date 202603060100.00        -> Operational Mode
+ root> set date 202603060100.00        -> Operational Mode
  ```
 
 * Set Timezone
@@ -162,7 +169,7 @@
 
 * Verification
  ```
- root# show system uptime
+ root# run show system uptime
  ```
 
 #### 8. NTP (Network Time Protocol)
@@ -240,7 +247,7 @@
 * Verification Backup Configuration
  ```
  root# run file list
- root# cat "backup_config"
+ root@% cat "backup_config"
  ```
 
 * Restore Configuration
@@ -268,6 +275,7 @@
 #### 15. Configure
 * Configure
  ```
+ root> configure
  root# set ...
  root# show | compare
  root# commit
@@ -275,7 +283,7 @@
 
 * Configure Private
  ```
- root# configure private
+ root> configure private
  root# set ...
  root# show | compare
  root# commit
@@ -283,7 +291,7 @@
 
 * Configure Exclusive
  ```
- root# configure exclusive
+ root> configure exclusive
  root# set ...
  root# show | compare
  root# commit
@@ -294,6 +302,7 @@
  ```
  root# set interfaces lo0 unit 0 description
  root# set interfaces lo0 unit 0 family inet address 1.1.1.1/32
+ root# show | compare
  root# commit
  ```
 
@@ -301,14 +310,17 @@
  ```
  root# set interfaces em0 unit 0 description
  root# set interfaces em0 unit 0 family inet address 10.10.10.1/24
+ root# show | compare
  root# commit
  ```
 
 * Verification
  ```
- root> run show interfaces terse
- root> run show interfaces brief
- root> run ping 10.10.10.x
+ root# run show interfaces terse
+ root# run show interfaces brief
+ root# run ping 10.10.10.x
+ root# show | compare
+ root# commit
  ```
 
 * Maximum Transmission Unit (MTU)
@@ -340,9 +352,14 @@
  root# commit
  ```
 
+* Static Route Preference
+ ```
+ root# set routing-options static route "destination_network" next-hop "gateway" preference "value"
+ ```
+
 * Routing Table Static
  ```
- root# show route protocol static
+ root# run show route protocol static
  ```
 
 * Delete Static Route
@@ -350,11 +367,6 @@
  root# delete routing-options static
  root# show | compare
  root# commit
- ```
-
-* Static Route Preference
- ```
- root# set routing-options static route "destination_network" next-hop "gateway" preference "value"
  ```
 
 #### 2. OSPF Routing
@@ -384,12 +396,12 @@
 
 * Verification
  ```
- root# show configuration routing-options
- root# show configuration protocols ospf
- root# show ospf neighbor
- root# show ospf interface
- root# show ospf route
- root# show route protocol ospf
+ root# run show configuration routing-options
+ root# run show configuration protocols ospf
+ root# run show ospf neighbor
+ root# run show ospf interface
+ root# run show ospf route
+ root# run show route protocol ospf
  ```
 
 * Migration Area OSPF (Rename Area)
@@ -496,20 +508,20 @@
  root# set protocols isis interface em1 level 1 disable (level 2 enable)
  root# set protocols isis interface em2 level 1 disable (level 2 enable)
  ```
-  
-* Verification
- ```
- root# show route protocol isis
- root# show isis interface
- root# show isis summary
- root# show isis adjacency detail
- root# show isis database
- ```
 
 * IS-IS Advanced
  ```
  root# set protocol isis level 1 wide-metrics-only    -> Intra Area
  root# set protocol isis level 2 wide-metrics-only    -> Inter Area
+ ```
+  
+* Verification
+ ```
+ root# run show route protocol isis
+ root# run show isis interface
+ root# run show isis summary
+ root# run show isis adjacency detail
+ root# run show isis database
  ```
 
 ## Routing Policy
@@ -538,6 +550,8 @@ root# set policy-options policy-statement "ospf-term" term 1 from route-filter "
 root# set policy-options policy-statement "ospf-term" term 1 then accept
 root# set policy-options policy-statement "ospf-term" term 2 then reject
 root# set protocols ospf export "ospf-term"
+root# show | compare
+root# commit
 ```
 
 ## Redistribution Policy
@@ -550,12 +564,14 @@ root# set policy-options policy-statement OSPF-to-ISIS term 1 from protocol ospf
 root# set policy-options policy-statement OSPF-to-ISIS term 1 from protocol direct
 root# set policy-options policy-statement OSPF-to-ISIS term 1 them accept
 root# set protocol isis export OSPF-to-ISIS
+root# show | compare
+root# commit
 ```
 
 * Verification
 ```
-root# show route protocol isis
-root# show route protocol ospf
+root# run show route protocol isis
+root# run show route protocol ospf
 ```
 
 #### 2. Redistribution IS-IS to OSPF
@@ -566,12 +582,14 @@ root# set policy-options policy-statement ISIS-to-OSPF term 1 from protocol isis
 root# set policy-options policy-statement ISIS-to-OSPF term 1 from protocol direct
 root# set policy-options policy-statement ISIS-to-OSPF term 1 them accept
 root# set protocol isis export ISIS-to-OSPF
+root# show | compare
+root# commit
 ```
 
 * Verification
 ```
-root# show route protocol isis
-root# show route protocol ospf
+root# run show route protocol isis
+root# run show route protocol ospf
 ```
 
 ## Firewall Filter
@@ -638,9 +656,9 @@ root# set protocols mpls interface em1
 
 * Verification
 ```
-root> show route forwarding-table family mpls
-root> show mpls interface brief
-root> show mpls lsp brief
+root# run show route forwarding-table family mpls
+root# run show mpls interface brief
+root# run show mpls lsp brief
 ```
 
 #### 2. MPLS LDP (Label Distribution Protocol)
@@ -655,9 +673,9 @@ root# set protocols ldp session "ip neighbor 2" authentication-key "password"
 
 * Verification
 ```
-root> show ldp interface
-root> show ldp neighbor
-root> show ldp session
+root# run show ldp interface
+root# run show ldp neighbor
+root# run show ldp session
 ```
 
 #### 3. LLDP (Link Layer Discovery Protocol)
@@ -669,8 +687,8 @@ root# set protocols lldp interface em1
 
 * Verification
 ```
-root> show lldp neighbor
-root> show lldp detail
+root# run show lldp neighbor
+root# run show lldp detail
 ```
 
 #### 4. RSVP (Resource Reservation Protocol)
@@ -683,7 +701,7 @@ root# set protocols rsvp interface em1
 
 * Verification
 ```
-root> show rsvp interface
+root# run show rsvp interface
 ```
 
 ## Interior-BGP Route Reflector
@@ -711,8 +729,8 @@ root# commit
 
 * Verification
 ```
-root> show bgp summary 
-root> show bgp neighbor
+root# run show bgp summary 
+root# run show bgp neighbor
 ```
 
 #### 2. BGP Router Client (Client)
@@ -735,8 +753,8 @@ root# commit
 
 * Verification
 ```
-root> show bgp summary 
-root> show bgp neighbor
+root# run show bgp summary 
+root# run show bgp neighbor
 ```
 
 ## MPLS L2VPN Configuration
@@ -817,9 +835,9 @@ root# set interfaces ge-0/0/4 encapsulation ethernet-vpls
 
 * Verification
 ```
-root> show vpls connections
-root> show vpls mac-table brief
-root> show route forwarding-table family vpls
+root# run show vpls connections
+root# run show vpls mac-table brief
+root# run show route forwarding-table family vpls
 ```
 
 #### 2. Near End
@@ -848,9 +866,9 @@ root# set interfaces ge-0/0/4 encapsulation ethernet-vpls
 
 * Verification
 ```
-root> show vpls connections
-root> show vpls mac-table brief
-root> show route forwarding-table family vpls
+root# run show vpls connections
+root# run show vpls mac-table brief
+root# run show route forwarding-table family vpls
 ```
 
 ## MPLS L3VPN Configuration
@@ -882,6 +900,16 @@ root# set interfaces ge-0/0/1 unit 0 description "to SERVER-XYZ"
 root# set interfaces ge-0/0/1 encapsulation ethernet 
 root# set interfaces ge-0/0/1 mtu 1500 
 root# set interfaces ge-0/0/1 unit 0 family inet address 192.110.0.1/30 
+```
+
+* Verification
+```
+root# run show route table [VRF_NAME].inet.0
+root# run show route forwarding-table vpn [VRF_NAME]
+root# run ping routing-instance [VRF_NAME] [DESTINATION_IP] source [SOURCE_IP] count 5
+root# run show bgp summary instance [VRF_NAME]
+root# run ping [DESTINATION_IP] source [SOURCE_IP]
+root# run traceroute [DESTINATION_IP] source [SOURCE_IP]
 ```
 
 #### 2. VRF Option Inter AS (AS-Overide)
@@ -931,10 +959,10 @@ root# set interfaces ge-0/0/3 unit 0 family inet address 172.100.0.1/30
 ```
 root# run show route table [VRF_NAME].inet.0
 root# run show route forwarding-table vpn [VRF_NAME]
-root# ping routing-instance [VRF_NAME] [DESTINATION_IP] source [SOURCE_IP] count 5
+root# run ping routing-instance [VRF_NAME] [DESTINATION_IP] source [SOURCE_IP] count 5
 root# run show bgp summary instance [VRF_NAME]
-root# ping [DESTINATION_IP] source [SOURCE_IP]
-root# traceroute [DESTINATION_IP] source [SOURCE_IP]
+root# run ping [DESTINATION_IP] source [SOURCE_IP]
+root# run traceroute [DESTINATION_IP] source [SOURCE_IP]
 ```
 
 #### 3. VRF Option Inter OSPF (Sham-Link)
@@ -984,8 +1012,8 @@ root# set interfaces ge-0/0/3 unit 0 family inet address 10.0.0.1/30
 ```
 root# run show ospf interface instance [VRF_NAME]
 root# run show ospf neighbor instance [VRF_NAME]
-root# ping [DESTINATION_IP] source [SOURCE_IP]
-root# traceroute [DESTINATION_IP] source [SOURCE_IP]
+root# run ping [DESTINATION_IP] source [SOURCE_IP]
+root# run traceroute [DESTINATION_IP] source [SOURCE_IP]
 ```
 
 ## LACP (Link Aggregation Control Protocol)
@@ -1014,7 +1042,13 @@ root# set interfaces [PORT_INTERFACE] description [DESCRIPTION]
 root# set interfaces [PORT_INTERFACE] gigether-options no-flow-control
 root# set interfaces [PORT_INTERFACE] gigether-options no-auto-negotiation
 root# set interfaces [PORT_INTERFACE] gigether-options 802.3ad ae3
-``` 
+```
+
+* Verification
+```
+root# run show ethernet-switching interfaces
+root# run show lacp interfaces
+```
 
 ## Support
 
