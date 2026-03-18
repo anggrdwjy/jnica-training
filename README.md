@@ -6,7 +6,7 @@
 
 #### Introduction Junos
 * Build for High Performance Network
-* Unix Based (FreeBSD)
+* Junos Operating System is based on FreeBSD (and Linux in Evolved versions)
 
 #### Information
 * [A. Overview Junos](#a-overview-junos)
